@@ -1,0 +1,51 @@
+<div class="card mt-4">
+  <div class="card-header">
+    <i class="fa fa-fw" [class.fa-caret-right]="collapsed" [class.fa-caret-down]="!collapsed" aria-hidden="true" (click)="collapsed = !collapsed"></i>
+    {{title}}
+  </div>
+  <div class="card-body container-fluid" [ngbCollapse]="collapsed" id="boxBody">
+    <div class="row">
+      <div class="col-6">
+        <div class="input-group" [ngbPopover]="popContent" placement="bottom" container="body">
+          <input type="text" class="form-control nohighlight" readonly [attr.value]="(select$|async)?.length+' item(s) selected'">
+          <div class="input-group-append">
+            <i class="fa fa-caret-down input-group-text" aria-hidden="true"></i>
+          </div>
+        </div>
+      </div>
+      <div class="col-6 max-h">
+        <div class="mr-2 d-inline-block" *ngFor="let item of select$|async">
+          <i class="fa fa-remove mr-2" aria-hidden="true" (click)="item.selected=false;select()"></i>{{item.description}}</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #popContent>
+  <div class="card">
+    <div class="card-header">
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <i class="fa fa-search input-group-text" aria-hidden="true"></i>
+        </div>
+        <input type="search" class="form-control" [(ngModel)]="searchTerm" (keyup)="filter()">
+      </div>
+    </div>
+    <div class="card-body fixed-h" (scroll)="onScroll($event)">
+      <div class="size-helper" [style.height]="before+'px'"></div>
+      <div class="form-check" *ngFor="let item of displayed">
+        <input class="form-check-input" [attr.id]="'check_'+item?.id" type="checkbox" [(ngModel)]="item.selected" (change)="select()">
+        <label class="form-check-label" [attr.for]="'check_'+item?.id">
+          {{item?.description}}
+        </label>
+      </div>
+      <div class="size-helper" [style.height]="after+'px'"></div>
+    </div>
+    <div class="card-footer">
+      <button class="btn btn-sm">
+        <i class="fa fa-save mr-2"></i>Save</button>
+      <button class="btn btn-sm btn-danger">
+        <i class="fa fa-trash mr-2"></i>Cancel</button>
+    </div>
+  </div>
+</ng-template>

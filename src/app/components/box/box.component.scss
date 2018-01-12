@@ -1,0 +1,25 @@
+@import "~bootstrap/scss/_functions";
+@import "~bootstrap/scss/_variables";
+input {
+    &.nohighlight:focus {
+        outline-width: 0;
+        box-shadow: 0 0 0 0;
+    }
+    &[readonly] {
+        background-color: $gray-100;
+    }
+}
+
+.fixed-h{
+    height: 15rem;
+    overflow: auto;
+}
+
+.max-h{
+    max-height: 10rem;
+    overflow: auto;
+}
+
+.size-helper{
+    width:100%;
+}
